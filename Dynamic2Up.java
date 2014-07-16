@@ -16,38 +16,33 @@ import java.util.Hashtable;
  *
  */
 public class Dynamic2Up {
-	public static int[][] temp;
-	//public static ArrayList<Point> off;
-	
-	public Dynamic2Up(int x, int y){
-		temp = new int [x+1][y+1];
-		//off = new ArrayList<Point>();
-	}
+
 
 	public static Boolean findPath(int x, int y){
 		Hashtable<Point,Boolean> myHash = new Hashtable<Point, Boolean>();
-		return findPath(x, y,myHash);	
+		ArrayList<Point> off = new ArrayList<Point>();
+		return findPath(x, y,myHash,off);	
 	}
 	
-	public static Boolean findPath(int x, int y, Hashtable<Point, Boolean> myHash){
-		if (x < 0 || y < 0 || temp[x][y] == -1)
+	public static Boolean findPath(int x, int y, Hashtable<Point, Boolean> myHash, ArrayList<Point> off){
+		if (x < 0 || y < 0 )
 			return false;
 		else if(x == 0 && y == 0)
 			return true;
 		else if (myHash.containsKey(new Point(x,y)))
 			return myHash.get(new Point(x,y));
 		else {
-			if(findPath(x-1,y,myHash)){
+			if(findPath(x-1,y,myHash,off)){
 				myHash.put(new Point(x-1,y), true);
-				//off.add(new Point(x-1,y));
+				off.add(new Point(x-1,y));
 				return true;
 			}else{ 
 				myHash.put(new Point(x-1,y), false);
 			}
 			
-			if(findPath(x,y-1,myHash)){
+			if(findPath(x,y-1,myHash,off)){
 				myHash.put(new Point(x,y-1), true);
-				//off.add(new Point(x,y-1));
+				off.add(new Point(x,y-1));
 				return true;
 			}else{
 				myHash.put(new Point(x,y-1), false);
@@ -62,7 +57,7 @@ public class Dynamic2Up {
 		Point a = new Point(1,1);
 		myHash.put(a, false);
 		
-		System.out.println(findPath(3, 3,myHash));
+		System.out.println(findPath(3, 3));
 		
 		
 		
