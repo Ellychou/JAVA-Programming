@@ -1,61 +1,40 @@
-public class MergeSort{
+public class MergeSort {
+	public static void mergeSort(String[] arr) {
+		if (arr.length < 2) return;
 
-	public static int[] Sort(int[] a){
-		int middle = a.length/2;
-		int[] low = new int[middle];
-		int[] high = new int[a.length - middle];
-		if(a.length == 1){
-			return a;
-		}else{
-			
-			for(int i=0; i < middle; i++)
-				low[i] =  a[i]; // What does it mean?
-			for(int i=middle; i < a.length; i++)
-				high[i-middle] = a[i];
-				
-			int[] sortedL= Sort(low);
-			int[] sortedH= Sort(high);
-			return Merge(sortedL, sortedH);
-		
+		String[] left = new String[arr.length/2];
+		String[] right = new String[arr.length - arr.length/2];
+		for (int i = 0; i < left.length; i++) {
+			left[i] = arr[i];
 		}
-		
+		for (int i = 0; i < right.length; i++) {
+			right[i] = arr[i+arr.length/2];
+		}
+		mergeSort(left);
+		mergeSort(right);
+		merge(arr, left, right);
 	}
-	
-	public static int[] Merge(int[] sortedL, int[] sortedH){
-		int[] temp = new int[sortedL.length + sortedH.length];
-		int l = 0, r = 0, i = 0;
-		
-		for( ; l < sortedL.length && r < sortedH.length; i++)
-		{
-			if (sortedL[l] < sortedH[r]){
-				temp[i] = sortedL[l];
+
+	public static void merge(String[] arr, String[] left, String[] right) {
+		int l = 0;
+		int r = 0;
+
+		for (int i = 0; i < arr.length; i++) {
+			if (r >= right.length || (l < left.length && left[l].compareToIgnoreCase(right[r]) <= 0)) {
+				arr[i] = left[l];
 				l++;
-			}else{
-				temp[i] = sortedH[r];
+			} else {
+				arr[i] = right[r];
 				r++;
 			}
 		}
-		
-		while(l < sortedL.length){
-			temp[i++] = sortedL[l++];
-		}
-		
-		while(r < sortedH.length){
-			temp[i++] = sortedH[r++];
-		}
-		
-		return temp;
-		
-
 	}
 
-
-	public static void main(String[] args){
-		int[] b = new int[]{3,2,1,5,2,7,4};
-		int[] c = Sort(b);
-		for(int i = 0; i < c.length; i++)
-			System.out.print(c[i]);
+	public static void main(String[] args) {
+		String[] a = {"djiu","adf","uw","kojw","abs"};
+		mergeSort(a);
+		for (int i = 0; i < a.length; i++) {
+			System.out.println(a[i]);
+		}
 	}
-	
-	
 }
